@@ -2,84 +2,88 @@
 
 ## 📌 Project Description
 
-**AI Payment Failure Recovery Agent** is a Django-based academic web application designed to simulate payment-failure analysis and recovery workflows.
+**AI Payment Failure Recovery Agent** is a Django-based academic web application that demonstrates how failed payment transactions can be analyzed and handled through an automated decision-making workflow.
 
-The system simulates payment transactions, identifies possible failure categories, provides a rule-based AI diagnosis with a confidence score, recommends a recovery action, checks the recommendation using predefined safety guardrails, performs a simulated recovery when permitted, and records the complete decision in an audit trail.
+The system uses simulated payment transactions to identify possible failure types, determine the likely cause, generate a rule-based AI diagnosis with a confidence score, recommend a recovery action, evaluate the action using safety guardrails, perform a simulated recovery when permitted, and record the complete decision in an audit trail.
 
-> **Important Note:** This project is an educational prototype and simulated environment. It does not process real payments, access real bank accounts, connect to banking systems, or transfer actual money.
+> **Important Note:** This project is an educational prototype and simulated environment. It does not process real payments, access real bank accounts, connect to real banking systems, transfer actual money, or perform real financial transactions.
 
 ---
 
-## 📖 Table of Contents
+# 📖 Table of Contents
 
-* [Problem Statement](#-problem-statement)
-* [Objectives](#-objectives)
-* [Proposed System](#-proposed-system)
-* [Why Failure Scenario Is Used](#-why-failure-scenario-is-used)
-* [How the System Works](#-how-the-system-works)
-* [Failure Scenarios](#-failure-scenarios)
-* [AI Diagnosis](#-ai-diagnosis)
-* [Safety Guardrails](#-safety-guardrails)
-* [Recovery Process](#-recovery-process)
-* [Customer Features](#-customer-features)
-* [Administrator Features](#-administrator-features)
-* [Dashboard](#-dashboard)
-* [Recovery Dashboard](#-recovery-dashboard)
-* [AI Audit Trail](#-ai-audit-trail)
-* [System Architecture](#-system-architecture)
-* [Technologies Used](#-technologies-used)
-* [Project Structure](#-project-structure)
-* [Database Models](#-database-models)
-* [URL Routes](#-url-routes)
-* [Installation](#-installation)
-* [Running the Project](#-running-the-project)
-* [Application Workflow](#-application-workflow)
-* [Example](#-example)
-* [Advantages](#-advantages)
-* [Limitations](#-limitations)
-* [Future Enhancements](#-future-enhancements)
-* [Security](#-security)
-* [Academic Purpose](#-academic-purpose)
-* [Disclaimer](#-important-disclaimer)
-* [Conclusion](#-conclusion)
+- [Problem Statement](#-problem-statement)
+- [Objectives](#-objectives)
+- [Proposed System](#-proposed-system)
+- [Why Failure Scenario Is Used](#-why-failure-scenario-is-used)
+- [How the System Works](#-how-the-system-works)
+- [Failure Scenarios](#-failure-scenarios)
+- [AI Diagnosis](#-ai-diagnosis)
+- [Safety Guardrails](#-safety-guardrails)
+- [Recovery Process](#-recovery-process)
+- [Customer Features](#-customer-features)
+- [Administrator Features](#-administrator-features)
+- [Dashboard](#-dashboard)
+- [Recovery Dashboard](#-recovery-dashboard)
+- [AI Audit Trail](#-ai-audit-trail)
+- [System Architecture](#-system-architecture)
+- [Technologies Used](#-technologies-used)
+- [Project Structure](#-project-structure)
+- [Database Models](#-database-models)
+- [URL Routes](#-url-routes)
+- [Requirements](#-requirements)
+- [Installation](#-installation)
+- [Running the Project](#-running-the-project)
+- [Application Workflow](#-application-workflow)
+- [Example](#-example)
+- [Security and Access Control](#-security-and-access-control)
+- [Advantages](#-advantages)
+- [Limitations](#-limitations)
+- [Future Enhancements](#-future-enhancements)
+- [Academic Purpose](#-academic-purpose)
+- [Important Note](#-important-note)
+- [Disclaimer](#-disclaimer)
+- [Conclusion](#-conclusion)
 
 ---
 
 # 🔴 Problem Statement
 
-Payment failures are common in online transactions. When a payment fails, users may receive only a general message such as:
+Payment failures can occur for several reasons, such as network problems, payment timeouts, bank errors, insufficient balance, incorrect payment details, or payment gateway problems.
+
+A basic payment application may only display:
 
 ```text
 Payment Failed
-```
+````
 
-The user may not know:
+Such a message does not provide enough information about:
 
 * Why the payment failed
-* Whether the failure is temporary
-* What action should be taken
+* What the possible cause was
+* What action could be taken
 * Whether retrying the payment is appropriate
-* Whether the transaction can potentially be recovered
+* Whether automated recovery is safe
 
-This project demonstrates a system that combines **failure detection, AI-assisted diagnosis, safety guardrails, simulated recovery, revenue tracking, and audit logging** in one application.
+This project demonstrates a structured approach for analyzing simulated payment failures and making recovery decisions using **failure detection, rule-based AI diagnosis, safety guardrails, simulated recovery, revenue tracking, and audit logging**.
 
 ---
 
 # 🎯 Objectives
 
-The main objectives are:
+The main objectives of the project are:
 
 * Detect simulated payment failures.
 * Identify the possible failure type.
 * Determine the likely root cause.
-* Provide an AI-based diagnosis.
-* Generate a confidence score.
+* Generate a rule-based AI diagnosis.
+* Calculate a confidence score for the diagnosis.
 * Recommend an appropriate recovery action.
-* Check the recommendation using safety guardrails.
-* Prevent unsafe automated recovery.
-* Simulate recovery when permitted.
-* Calculate simulated recovered revenue.
-* Display detailed payment results.
+* Check the recommended action using safety guardrails.
+* Block recovery actions that do not satisfy safety policies.
+* Simulate recovery when the action is approved.
+* Track simulated recovered revenue.
+* Display detailed payment and recovery information.
 * Provide administrators with recovery statistics.
 * Maintain an audit trail of recovery decisions.
 
@@ -87,7 +91,7 @@ The main objectives are:
 
 # 💡 Proposed System
 
-The system follows this process:
+The proposed system provides a complete simulated payment-failure analysis workflow.
 
 ```text
 Customer
@@ -115,19 +119,19 @@ Payment Result
 Audit Trail
 ```
 
-The system does not automatically retry every failed payment. The recommended action is first evaluated by the safety guardrail.
+The system does not automatically execute every recommended action. Each recovery recommendation is evaluated by the safety guardrail before the recovery process is simulated.
 
 ---
 
 # ❓ Why Failure Scenario Is Used
 
-### Important Explanation
+## Important Explanation
 
-The **Failure Scenario** option is included because this project is currently a **simulated payment environment**.
+The **Failure Scenario** field is included because the current project is a **simulated academic payment environment**.
 
-In a real payment application, customers would **not normally select or enter the reason for their own payment failure**.
+In a real payment application, the customer would normally **not select the reason why their payment failed**.
 
-A real payment system would work approximately like this:
+A real payment system would work more like this:
 
 ```text
 Customer
@@ -145,7 +149,7 @@ Gateway Returns Failure Information
 AI Payment Failure Recovery Agent
 ```
 
-For example, a real payment gateway could return information indicating:
+For example, a real payment gateway could provide failure information such as:
 
 ```text
 Payment Timeout
@@ -165,9 +169,9 @@ Insufficient Balance
 
 However, this academic project does not connect to a real payment gateway or banking system.
 
-Therefore, the **Failure Scenario** field is used as a **testing and demonstration mechanism**.
+Therefore, the **Failure Scenario** field is used as a **controlled testing and demonstration mechanism**.
 
-It allows the project evaluator or developer to intentionally simulate different payment failures and verify that the system responds correctly.
+It allows the developer, evaluator, or project demonstrator to intentionally reproduce different payment failure conditions.
 
 For example, selecting:
 
@@ -184,9 +188,9 @@ Failure Detection
      ↓
 AI Diagnosis
      ↓
-88% Confidence
+Confidence Score
      ↓
-Retry Payment
+Recovery Recommendation
      ↓
 Safety Check
      ↓
@@ -203,13 +207,14 @@ Insufficient Balance
 
 allows the system to demonstrate a different diagnosis and recovery recommendation.
 
-### Why this is useful for the academic project
+## Why This Is Useful
 
-Without the Failure Scenario option, it would be difficult to reliably demonstrate every failure condition because the project does not have a real payment gateway generating actual failures.
+Without controlled failure scenarios, it would be difficult to reliably demonstrate every failure condition during an academic project evaluation.
 
-The option therefore allows controlled testing of:
+The Failure Scenario field allows controlled testing of:
 
 * Failure detection
+* Root-cause identification
 * AI diagnosis
 * Confidence scoring
 * Recovery recommendations
@@ -217,11 +222,11 @@ The option therefore allows controlled testing of:
 * Recovery execution
 * Audit logging
 
-### Real-world implementation
+## Real-World Implementation
 
 In a future production implementation, the customer would not select the failure scenario.
 
-Instead, the payment gateway would automatically provide the failure information:
+Instead, the payment gateway would automatically provide the failure information.
 
 ```text
 Real Payment
@@ -239,7 +244,7 @@ Safety Guardrail
 Recovery Decision
 ```
 
-Therefore, the Failure Scenario field is **only used for simulation and testing in the current academic version**.
+Therefore, the Failure Scenario field is **only a simulation and testing mechanism in the current academic version**.
 
 ---
 
@@ -253,13 +258,13 @@ A new customer can create an account using:
 * Password
 * Confirm Password
 
-The project uses Django's built-in authentication system.
+The project uses Django's authentication system for user registration and authentication.
 
 ---
 
 ## 2. User Login
 
-Registered users can log in using their credentials.
+Registered users can log in using their username and password.
 
 After successful authentication, the user is redirected to the dashboard.
 
@@ -267,7 +272,9 @@ After successful authentication, the user is redirected to the dashboard.
 
 ## 3. Dashboard
 
-The dashboard displays:
+The dashboard provides information about the user's payment activity.
+
+It displays:
 
 * Total payments
 * Failed payments
@@ -286,24 +293,31 @@ Administrators additionally have access to:
 
 # 💳 Payment Simulation
 
-The **Make a Payment** page allows the user to create a simulated payment.
+The **Make a Payment** page provides a simulated payment environment.
 
 Example:
 
 ```text
-Amount: ₹420
-Payment Method: UPI
-Bank: State Bank of India
-Failure Scenario: Bank Error
+Amount:
+₹420
+
+Payment Method:
+UPI
+
+Bank:
+State Bank of India
+
+Failure Scenario:
+Bank Error
 ```
 
-The system then processes the simulated transaction through its failure analysis and recovery workflow.
+After the simulated payment is submitted, the system processes the transaction through the complete failure analysis and recovery workflow.
 
 ---
 
 # 🚨 Failure Scenarios
 
-The current system supports the following simulated scenarios:
+The application supports the following simulated failure categories:
 
 | Failure Scenario        | Possible Cause                                |
 | ----------------------- | --------------------------------------------- |
@@ -317,13 +331,15 @@ The current system supports the following simulated scenarios:
 | Invalid Payment Details | Incorrect or incomplete payment information   |
 | Authentication Failure  | Payment authentication could not be completed |
 
+The failure scenarios are used only for controlled testing in the current academic version.
+
 ---
 
 # 🤖 AI Diagnosis
 
-The project uses a **rule-based AI diagnosis engine**.
+The current project uses a **rule-based AI diagnosis engine**.
 
-Based on the detected failure type, it generates:
+It analyzes the detected failure type and generates:
 
 1. AI Diagnosis
 2. Confidence Score
@@ -346,15 +362,17 @@ Recovery Action:
 Retry payment
 ```
 
-The current AI implementation is rule-based and intended for academic demonstration.
+The current implementation is rule-based and is intended to demonstrate AI-assisted decision-making concepts.
+
+It is **not a trained machine-learning model**.
 
 ---
 
 # 🛡️ Safety Guardrails
 
-Before executing recovery, the recommended action is checked by the safety guardrail.
+Before a recovery action is executed in the simulation, the recommended action is checked by the safety guardrail.
 
-Approved actions include:
+The system currently recognizes safe recovery actions such as:
 
 ```text
 Retry payment
@@ -363,19 +381,28 @@ Request customer to correct payment details
 Request customer authentication
 ```
 
+The guardrail determines:
+
+* Whether the action is allowed
+* Risk level
+* Policy action
+* Reason for the decision
+
 ---
 
-## High-Value Transaction Protection
+# 💰 High-Value Transaction Protection
 
-If the simulated payment amount is greater than:
+The system includes a safety rule for high-value simulated transactions.
+
+If the payment amount is greater than:
 
 ```text
 ₹10,000
 ```
 
-the system blocks automatic recovery and requires manual review.
+automatic simulated recovery is blocked.
 
-Example:
+The system returns:
 
 ```text
 Risk Level:
@@ -388,13 +415,13 @@ Decision:
 Recovery Blocked
 ```
 
-This demonstrates that the recovery agent does not blindly execute every recommended action.
+This demonstrates that the recovery process does not blindly execute every recommended action.
 
 ---
 
 # 🔄 Recovery Process
 
-If the safety guardrail approves the recommended action, the system performs a **simulated recovery**.
+If the safety guardrail approves the recommended action, the application performs a **simulated recovery**.
 
 Example:
 
@@ -419,14 +446,28 @@ Executed
 
       ↓
 
-Status:
+Payment Status:
 RECOVERED
 ```
 
-If customer intervention is required:
+For a retry action, the current system simulates a successful retry.
+
+Example:
 
 ```text
-Status:
+Recovery Result:
+Simulated retry executed successfully
+
+Revenue Recovered:
+₹420
+```
+
+If customer intervention is required, the system does not perform an automatic retry.
+
+Example:
+
+```text
+Payment Status:
 FAILED
 
 Recovery Result:
@@ -439,23 +480,23 @@ Customer action required before recovery.
 
 Customers can:
 
-* Register
+* Register an account
 * Login
 * Logout
 * View their dashboard
-* Make simulated payments
+* Create simulated payments
 * Select failure scenarios for testing
 * View payment history
 * View failure reasons
 * View failure types
 * View AI diagnosis
 * View AI confidence
-* View recovery recommendations
+* View recommended recovery actions
 * View recovery results
 * View recovered revenue
 * View individual payment details
 
-Customers can only access payments associated with their own account.
+Customers are restricted to their own payment records.
 
 ---
 
@@ -464,8 +505,8 @@ Customers can only access payments associated with their own account.
 Administrators can:
 
 * Login
-* View all payments
-* Access Recovery Dashboard
+* View payment information
+* Access the Recovery Dashboard
 * Monitor failed payments
 * Monitor recovered payments
 * View revenue recovered
@@ -473,13 +514,15 @@ Administrators can:
 * View recovery rate
 * View blocked recovery actions
 * View failure-type distribution
-* Access AI Audit Trail
+* Access the AI Audit Trail
+
+Administrator-only pages are protected using staff authorization.
 
 ---
 
 # 📊 Dashboard
 
-The main dashboard displays:
+The main dashboard displays statistics such as:
 
 ```text
 Total Payments
@@ -500,14 +543,18 @@ Bank
 Failure Reason
 Status
 Recovery Action
-Payment Details
+Details
 ```
+
+Each payment can be opened to view the complete payment failure and recovery result.
 
 ---
 
 # 📈 Recovery Dashboard
 
-The administrator Recovery Dashboard provides overall recovery statistics:
+The **Recovery Dashboard** is available to administrators.
+
+It displays overall recovery statistics:
 
 ```text
 Total Payments
@@ -518,7 +565,7 @@ Revenue Recovered
 Recovery Rate
 ```
 
-It also displays the distribution of payment failure types.
+It also provides failure-type distribution information.
 
 Example:
 
@@ -531,15 +578,15 @@ Revenue Recovered: ₹5,400
 Recovery Rate:        60%
 ```
 
-The displayed values depend on the simulated transactions created in the application.
+The actual values depend on the simulated transactions created in the application.
 
 ---
 
 # 🔍 AI Audit Trail
 
-The AI Audit Trail records the recovery decision-making process.
+The **AI Audit Trail** records the decision-making information associated with each recovery attempt.
 
-It stores information such as:
+The audit information includes:
 
 ```text
 Payment
@@ -583,7 +630,7 @@ Result:
 Simulated retry executed successfully
 ```
 
-This provides transparency into the recovery process.
+The audit trail improves transparency by showing how the system arrived at its recovery decision.
 
 ---
 
@@ -591,7 +638,7 @@ This provides transparency into the recovery process.
 
 ```text
 ┌──────────────────────────────────────────────┐
-│                 USER LAYER                   │
+│                  USER LAYER                  │
 │          Customers • Administrators          │
 └───────────────────────┬──────────────────────┘
                         ↓
@@ -601,7 +648,7 @@ This provides transparency into the recovery process.
 └───────────────────────┬──────────────────────┘
                         ↓
 ┌──────────────────────────────────────────────┐
-│               PAYMENT LAYER                  │
+│                PAYMENT LAYER                 │
 │           Simulated Payment Processing       │
 └───────────────────────┬──────────────────────┘
                         ↓
@@ -612,11 +659,11 @@ This provides transparency into the recovery process.
                         ↓
 ┌──────────────────────────────────────────────┐
 │              AI DIAGNOSIS LAYER              │
-│       Diagnosis • Confidence • Action         │
+│       Diagnosis • Confidence • Action        │
 └───────────────────────┬──────────────────────┘
                         ↓
 ┌──────────────────────────────────────────────┐
-│             SAFETY GUARDRAIL LAYER           │
+│            SAFETY GUARDRAIL LAYER            │
 │          Risk Analysis • Policy Check        │
 └───────────────────────┬──────────────────────┘
                         ↓
@@ -649,8 +696,15 @@ This provides transparency into the recovery process.
 
 ## Database
 
-* SQLite for the current development environment
-* MySQL can be configured for future deployment
+The database depends on the configuration used in the project.
+
+For the current development configuration, use the database configured in:
+
+```text
+payment_recovery/settings.py
+```
+
+The application can be configured with SQLite for development or MySQL with the appropriate Django database configuration.
 
 ## Authentication
 
@@ -702,7 +756,7 @@ Payment-Failure-Recovery-Agent/
             └── audit_trail.html
 ```
 
-If a separate static directory is used:
+If the project uses a separate CSS file:
 
 ```text
 static/
@@ -716,7 +770,7 @@ static/
 
 ## Payment
 
-The `Payment` model stores:
+The `Payment` model stores payment and recovery information such as:
 
 ```text
 User
@@ -740,7 +794,7 @@ Created At
 
 ## RecoveryAudit
 
-The `RecoveryAudit` model stores:
+The `RecoveryAudit` model records the recovery decision process:
 
 ```text
 Payment
@@ -772,27 +826,35 @@ Created At
 | `/dashboard/`                   | Payment Dashboard                |
 | `/make-payment/`                | Simulated Payment                |
 | `/payment-result/<payment_id>/` | Payment Result                   |
-| `/recovery-dashboard/`          | Admin Recovery Dashboard         |
-| `/audit-trail/`                 | Admin AI Audit Trail             |
+| `/recovery-dashboard/`          | Administrator Recovery Dashboard |
+| `/audit-trail/`                 | Administrator AI Audit Trail     |
 
 ---
 
 # 📦 Requirements
 
-The main dependencies are listed in `requirements.txt`.
+The project dependencies should be listed in `requirements.txt`.
 
-Example:
+For the current Django application, the minimum dependency is:
+
+```text
+Django==4.2.1
+```
+
+If the project is configured to use MySQL through PyMySQL, include:
 
 ```text
 Django==4.2.1
 PyMySQL==1.1.1
 ```
 
-Install them using:
+Install the dependencies using:
 
 ```bash
 pip install -r requirements.txt
 ```
+
+> Keep `requirements.txt` consistent with the database configuration actually used by your project.
 
 ---
 
@@ -804,19 +866,27 @@ pip install -r requirements.txt
 git clone <your-repository-url>
 ```
 
+Replace `<your-repository-url>` with your GitHub repository URL.
+
+---
+
 ## 2. Open the Project
 
 ```bash
 cd Payment-Failure-Recovery-Agent
 ```
 
-## 3. Create Virtual Environment
+---
+
+## 3. Create a Virtual Environment
 
 ```bash
 python -m venv venv
 ```
 
-## 4. Activate Virtual Environment
+---
+
+## 4. Activate the Virtual Environment
 
 ### Windows
 
@@ -830,11 +900,15 @@ venv\Scripts\activate
 source venv/bin/activate
 ```
 
-## 5. Install Requirements
+---
+
+## 5. Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
+
+---
 
 ## 6. Apply Migrations
 
@@ -843,13 +917,15 @@ python manage.py makemigrations
 python manage.py migrate
 ```
 
-## 7. Create Administrator
+---
+
+## 7. Create Administrator Account
 
 ```bash
 python manage.py createsuperuser
 ```
 
-Follow the instructions displayed in the terminal.
+Follow the instructions shown in the terminal.
 
 ---
 
@@ -861,7 +937,7 @@ Start the Django development server:
 python manage.py runserver
 ```
 
-Open:
+Open the application in a browser:
 
 ```text
 http://127.0.0.1:8000/
@@ -907,7 +983,7 @@ http://127.0.0.1:8000/
 
 # 🧪 Example
 
-Consider this simulated transaction:
+Consider the following simulated transaction:
 
 ```text
 Amount:
@@ -955,13 +1031,13 @@ Revenue Recovered:
 ₹420
 ```
 
-The complete decision is recorded in the AI Audit Trail.
+The decision is then recorded in the AI Audit Trail.
 
 ---
 
-# 🔐 Security
+# 🔐 Security and Access Control
 
-The application uses Django's authentication and authorization features.
+The application uses Django authentication and authorization mechanisms.
 
 Security-related features include:
 
@@ -974,25 +1050,32 @@ Security-related features include:
 * Protected Recovery Dashboard
 * Protected AI Audit Trail
 
-Customers can only view their own payment information, while administrators can access overall payment and recovery information.
+Normal users can access only their own payment details.
+
+Administrators can access broader payment and recovery information.
+
+The application is an academic prototype and requires additional security controls before any real-world financial deployment.
 
 ---
 
 # ✅ Advantages
 
-* Provides detailed payment failure analysis.
-* Explains possible causes of payment failures.
-* Provides an AI confidence score.
-* Recommends suitable recovery actions.
-* Uses safety guardrails before recovery.
-* Blocks high-value transactions from automatic recovery.
+* Provides structured payment failure analysis.
+* Identifies possible failure categories.
+* Explains the likely cause of a failure.
+* Provides a rule-based AI diagnosis.
+* Provides a confidence score.
+* Recommends recovery actions.
+* Applies safety guardrails before recovery.
+* Blocks high-value simulated transactions from automatic recovery.
 * Simulates recovery safely.
 * Tracks simulated recovered revenue.
 * Provides customer-specific payment history.
 * Provides administrator analytics.
-* Maintains a complete audit trail.
+* Maintains an audit trail.
+* Demonstrates role-based access control.
 * Suitable for academic demonstration and testing.
-* Can be extended with real payment gateway integrations.
+* Can be extended with real payment-gateway integrations in the future.
 
 ---
 
@@ -1008,8 +1091,11 @@ Therefore:
 * It does not transfer actual money.
 * Recovery actions are simulated.
 * The AI diagnosis is rule-based.
-* Failure scenarios are manually selected for simulation.
+* Failure scenarios are manually selected for controlled testing.
+* It does not provide real financial advice.
 * It is not intended for production financial use.
+* It does not currently integrate with a real payment gateway.
+* Additional security and compliance work would be required for a production system.
 
 ---
 
@@ -1017,28 +1103,32 @@ Therefore:
 
 Possible future improvements include:
 
-* Real payment gateway integration
-* Automatic gateway failure-response processing
-* Machine-learning-based failure prediction
-* Real-time payment monitoring
-* Advanced fraud detection
-* Transaction anomaly detection
-* Email notifications
-* SMS notifications
-* Advanced recovery strategies
-* Payment gateway APIs
-* REST API integration
-* Cloud deployment
-* Advanced administrator analytics
-* Machine-learning models trained on historical payment data
+* Real payment gateway integration.
+* Automatic processing of gateway failure responses.
+* Machine-learning-based failure prediction.
+* Real-time payment monitoring.
+* Advanced fraud detection.
+* Transaction anomaly detection.
+* Email notifications.
+* SMS notifications.
+* Advanced recovery strategies.
+* Payment gateway APIs.
+* REST API integration.
+* Cloud deployment.
+* Advanced administrator analytics.
+* Machine-learning models trained on historical payment data.
+* Improved risk scoring.
+* Human approval workflows for sensitive transactions.
 
-In a future real-world implementation, the Failure Scenario field would be removed from the customer-facing payment form. Failure information would instead be received automatically from the payment gateway.
+In a future real-world implementation, the Failure Scenario field would be removed from the customer-facing payment form.
+
+Failure information would instead be received automatically from the payment gateway.
 
 ---
 
 # 🏭 Future Real-World Workflow
 
-### Current Academic Version
+## Current Academic Version
 
 ```text
 Customer
@@ -1054,7 +1144,7 @@ Safety Guardrail
 Simulated Recovery
 ```
 
-### Possible Future Production Version
+## Possible Future Production Version
 
 ```text
 Customer
@@ -1080,7 +1170,9 @@ Customer Notification
 Audit Trail
 ```
 
-The customer would not manually provide the failure reason in the future production version.
+In the future production version, the customer would not manually provide the failure reason.
+
+The payment gateway would provide the failure information automatically.
 
 ---
 
@@ -1090,10 +1182,11 @@ This project demonstrates the integration of:
 
 * Web application development
 * Django framework
+* Python programming
 * User authentication
 * Database management
 * Rule-based AI
-* Failure analysis
+* Payment failure analysis
 * Decision-making
 * Safety guardrails
 * Recovery simulation
@@ -1101,21 +1194,21 @@ This project demonstrates the integration of:
 * Audit logging
 * Role-based access control
 
-The project demonstrates how these technologies can be combined into a structured payment-failure analysis and recovery workflow.
+The project demonstrates how these components can be combined into a structured payment-failure analysis and recovery workflow.
 
 ---
 
 # 📌 Important Note
 
-**The Failure Scenario field is intentionally included only because the current application is a simulated academic environment.**
+**The Failure Scenario field is intentionally included because the current application is a simulated academic environment.**
 
-It provides a controlled way to reproduce different failure conditions and demonstrate the complete AI recovery workflow without connecting to real payment gateways or financial systems.
+It provides a controlled way to reproduce different payment failure conditions and demonstrate the complete failure-analysis and recovery workflow without connecting to real payment gateways or financial systems.
 
-In a real-world implementation, failure information would be obtained automatically from the payment gateway rather than being selected by the customer.
+In a real-world implementation, failure information would be received automatically from the payment gateway rather than being selected by the customer.
 
 ---
 
-# ⚠️ Important Disclaimer
+# ⚠️ Disclaimer
 
 > **This project is developed strictly for educational, academic, testing, and demonstration purposes. It uses simulated payment transactions and simulated recovery actions. It does not process real financial transactions, access real bank accounts, transfer actual money, or provide real financial advice. It should not be used as a production payment or banking system without appropriate security, compliance, payment-gateway integration, testing, and professional review.**
 
@@ -1123,7 +1216,7 @@ In a real-world implementation, failure information would be obtained automatica
 
 # 🏁 Conclusion
 
-The **AI Payment Failure Recovery Agent** demonstrates a complete simulated workflow for handling failed payment transactions.
+The **AI Payment Failure Recovery Agent** demonstrates a complete simulated workflow for analyzing and handling failed payment transactions.
 
 Instead of simply displaying:
 
@@ -1131,7 +1224,7 @@ Instead of simply displaying:
 Payment Failed
 ```
 
-the system provides:
+the system provides a structured analysis:
 
 ```text
 Failure Reason
@@ -1151,4 +1244,7 @@ Safety Decision
 Recovery Result
       ↓
 Audit Trail
+```
+
+```
 ```
