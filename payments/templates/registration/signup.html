@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Sign Up - Payment Failure Recovery Agent</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, Helvetica, sans-serif;
+
+            background: linear-gradient(
+                135deg,
+                #eef2ff,
+                #f8fafc
+            );
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            padding: 25px;
+        }
+
+        .signup-wrapper {
+            width: 100%;
+            max-width: 480px;
+        }
+
+        .brand {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .brand h1 {
+            margin: 0;
+            color: #111827;
+            font-size: 27px;
+        }
+
+        .brand p {
+            margin-top: 8px;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .signup-card {
+            background: white;
+            padding: 35px;
+            border-radius: 18px;
+
+            box-shadow:
+                0 10px 35px rgba(0, 0, 0, 0.10);
+        }
+
+        .signup-card h2 {
+            text-align: center;
+            margin: 0 0 8px;
+            color: #111827;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        .error-box {
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 18px;
+            font-size: 13px;
+        }
+
+        .form-group {
+            margin-bottom: 17px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            color: #374151;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px 14px;
+
+            border: 1px solid #cbd5e1;
+            border-radius: 9px;
+
+            font-size: 15px;
+            outline: none;
+
+            transition: 0.2s;
+        }
+
+        input:focus {
+            border-color: #2563eb;
+
+            box-shadow:
+                0 0 0 3px
+                rgba(37, 99, 235, 0.12);
+        }
+
+        .help-text {
+            display: block;
+            margin-top: 5px;
+            color: #94a3b8;
+            font-size: 12px;
+        }
+
+        .field-error {
+            margin-top: 5px;
+            color: #dc2626;
+            font-size: 12px;
+        }
+
+        .register-btn {
+            width: 100%;
+
+            padding: 14px;
+
+            border: none;
+            border-radius: 9px;
+
+            background: #2563eb;
+            color: white;
+
+            font-size: 16px;
+            font-weight: 700;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+        .register-btn:hover {
+            background: #1d4ed8;
+            transform: translateY(-1px);
+        }
+
+        .login-link {
+            text-align: center;
+            margin-top: 22px;
+
+            font-size: 14px;
+            color: #64748b;
+        }
+
+        .login-link a {
+            color: #2563eb;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 18px;
+
+            color: #94a3b8;
+            font-size: 12px;
+        }
+
+        @media (max-width: 520px) {
+
+            .signup-card {
+                padding: 25px 20px;
+            }
+
+            .brand h1 {
+                font-size: 22px;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="signup-wrapper">
+
+    <div class="brand">
+
+        <h1>
+            AI Payment Failure Recovery Agent
+        </h1>
+
+        <p>
+            AI-powered revenue recovery system
+        </p>
+
+    </div>
+
+
+    <div class="signup-card">
+
+        <h2>
+            Create Your Account
+        </h2>
+
+        <p class="subtitle">
+            Register to make payments and view your
+            payment recovery information.
+        </p>
+
+
+        {% if form.non_field_errors %}
+
+        <div class="error-box">
+
+            {% for error in form.non_field_errors %}
+
+                {{ error }}
+
+            {% endfor %}
+
+        </div>
+
+        {% endif %}
+
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+
+            <!-- USERNAME -->
+
+            <div class="form-group">
+
+                <label for="{{ form.username.id_for_label }}">
+                    Username
+                </label>
+
+                {{ form.username }}
+
+                {% for error in form.username.errors %}
+
+                    <div class="field-error">
+                        {{ error }}
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+
+            <!-- PASSWORD -->
+
+            <div class="form-group">
+
+                <label for="{{ form.password1.id_for_label }}">
+                    Password
+                </label>
+
+                {{ form.password1 }}
+
+                <span class="help-text">
+                    Your password must contain at least
+                    8 characters.
+                </span>
+
+                {% for error in form.password1.errors %}
+
+                    <div class="field-error">
+                        {{ error }}
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+
+            <!-- CONFIRM PASSWORD -->
+
+            <div class="form-group">
+
+                <label for="{{ form.password2.id_for_label }}">
+                    Confirm Password
+                </label>
+
+                {{ form.password2 }}
+
+                {% for error in form.password2.errors %}
+
+                    <div class="field-error">
+                        {{ error }}
+                    </div>
+
+                {% endfor %}
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="register-btn"
+            >
+                Create Account
+            </button>
+
+        </form>
+
+
+        <!-- LOGIN LINK -->
+
+        <div class="login-link">
+
+            Already have an account?
+
+            <a href="{% url 'login' %}">
+                Login here
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div class="footer">
+
+        Payment Failure Recovery Agent © 2026
+
+        <br>
+
+        AI-powered payment diagnosis,
+        recovery and safety monitoring
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

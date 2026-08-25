@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Payment Dashboard | AI Payment Failure Recovery Agent</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        /* ================= HEADER ================= */
+
+        .top-header {
+            background: #111827;
+            color: white;
+            padding: 18px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .brand {
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .brand-subtitle {
+            margin-top: 5px;
+            font-size: 13px;
+            color: #cbd5e1;
+        }
+
+        .logout-btn {
+            background: #dc2626;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .logout-btn:hover {
+            background: #b91c1c;
+        }
+
+        /* ================= CONTAINER ================= */
+
+        .container {
+            width: 92%;
+            max-width: 1250px;
+            margin: 35px auto;
+        }
+
+        /* ================= WELCOME ================= */
+
+        .welcome-section {
+            background: white;
+            padding: 28px;
+            border-radius: 14px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+        }
+
+        .welcome-section h1 {
+            margin: 0;
+            color: #111827;
+            font-size: 30px;
+        }
+
+        .welcome-section p {
+            color: #64748b;
+        }
+
+        .admin-badge {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 7px 14px;
+            border-radius: 20px;
+            background: #ede9fe;
+            color: #6d28d9;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        /* ================= ACTION BUTTONS ================= */
+
+        .dashboard-actions {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            margin-top: 25px;
+        }
+
+        .action-btn {
+            min-width: 180px;
+            padding: 13px 22px;
+            border-radius: 9px;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            transition: 0.2s;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-3px);
+            color: white;
+        }
+
+        .payment-btn {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            box-shadow: 0 4px 10px rgba(37,99,235,.2);
+        }
+
+        .payment-btn:hover {
+            background: #1e40af;
+        }
+
+        .recovery-btn {
+            background: linear-gradient(135deg, #059669, #047857);
+            box-shadow: 0 4px 10px rgba(5,150,105,.2);
+        }
+
+        .recovery-btn:hover {
+            background: #065f46;
+        }
+
+        .audit-btn {
+            background: linear-gradient(135deg, #7c3aed, #6d28d9);
+            box-shadow: 0 4px 10px rgba(124,58,237,.2);
+        }
+
+        .audit-btn:hover {
+            background: #5b21b6;
+        }
+
+        /* ================= STATISTICS ================= */
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 22px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,.05);
+        }
+
+        .stat-title {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .stat-value {
+            margin-top: 8px;
+            font-size: 28px;
+            font-weight: bold;
+            color: #111827;
+        }
+
+        .stat-description {
+            margin-top: 7px;
+            color: #94a3b8;
+            font-size: 12px;
+        }
+
+        /* ================= CARD ================= */
+
+        .card {
+            background: white;
+            border-radius: 14px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,.05);
+        }
+
+        .card h2 {
+            margin-top: 0;
+        }
+
+        /* ================= TABLE ================= */
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            min-width: 950px;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #f1f5f9;
+            color: #475569;
+            padding: 13px;
+            text-align: left;
+            font-size: 13px;
+        }
+
+        td {
+            padding: 13px;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 13px;
+        }
+
+        tr:hover {
+            background: #f8fafc;
+        }
+
+        /* ================= STATUS ================= */
+
+        .status {
+            display: inline-block;
+            padding: 6px 11px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .status-recovered {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status-failed {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        /* ================= DETAILS ================= */
+
+        .details-btn {
+            background: #eff6ff;
+            color: #2563eb;
+            padding: 7px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .details-btn:hover {
+            background: #dbeafe;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #64748b;
+        }
+
+        /* ================= AI INFO ================= */
+
+        .ai-info {
+            background: #eef2ff;
+            border-left: 5px solid #6366f1;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .ai-info h3 {
+            color: #3730a3;
+            margin-top: 0;
+        }
+
+        .ai-info p {
+            color: #475569;
+        }
+
+        /* ================= FOOTER ================= */
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media(max-width:1000px) {
+            .stats-grid {
+                grid-template-columns: repeat(2,1fr);
+            }
+        }
+
+        @media(max-width:700px) {
+            .top-header {
+                padding: 18px 20px;
+            }
+
+            .container {
+                width: 94%;
+                margin: 20px auto;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .dashboard-actions {
+                flex-direction: column;
+            }
+
+            .action-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="top-header">
+
+    <div>
+        <div class="brand">
+            AI Payment Failure Recovery Agent
+        </div>
+
+        <div class="brand-subtitle">
+            AI-powered revenue recovery system
+        </div>
+    </div>
+
+    <a href="{% url 'logout' %}" class="logout-btn">
+        Logout
+    </a>
+
+</header>
+
+<div class="container">
+
+    <section class="welcome-section">
+
+        <h1>
+            Welcome, {{ current_user.username }}
+        </h1>
+
+        {% if is_admin %}
+
+            <span class="admin-badge">
+                Administrator Account
+            </span>
+
+        {% else %}
+
+            <p>
+                Your personal payment dashboard
+            </p>
+
+        {% endif %}
+
+        <div class="dashboard-actions">
+
+            <a href="{% url 'make_payment' %}"
+               class="action-btn payment-btn">
+                💳 Make a Payment
+            </a>
+
+            {% if is_admin %}
+
+                <a href="{% url 'recovery_dashboard' %}"
+                   class="action-btn recovery-btn">
+                    📊 Recovery Dashboard
+                </a>
+
+                <a href="{% url 'audit_trail' %}"
+                   class="action-btn audit-btn">
+                    🔍 AI Audit Trail
+                </a>
+
+            {% endif %}
+
+        </div>
+
+    </section>
+
+
+    <div class="stats-grid">
+
+        <div class="stat-card">
+            <div class="stat-title">Total Payments</div>
+
+            <div class="stat-value">
+                {{ total_payments }}
+            </div>
+
+            <div class="stat-description">
+                Transactions monitored
+            </div>
+        </div>
+
+
+        <div class="stat-card">
+            <div class="stat-title">Failed Payments</div>
+
+            <div class="stat-value">
+                {{ failed_payments }}
+            </div>
+
+            <div class="stat-description">
+                Payments requiring attention
+            </div>
+        </div>
+
+
+        <div class="stat-card">
+            <div class="stat-title">Revenue Recovered</div>
+
+            <div class="stat-value">
+                ₹{{ revenue_recovered }}
+            </div>
+
+            <div class="stat-description">
+                {{ recovery_rate }}% recovery rate
+            </div>
+        </div>
+
+
+        <div class="stat-card">
+            <div class="stat-title">Revenue at Risk</div>
+
+            <div class="stat-value">
+                ₹{{ revenue_at_risk }}
+            </div>
+
+            <div class="stat-description">
+                Unrecovered payment value
+            </div>
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <h2>My Payments</h2>
+
+        <p>
+            Your payment and recovery history
+        </p>
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Payment ID</th>
+                        <th>Order ID</th>
+                        <th>Amount</th>
+                        <th>Method</th>
+                        <th>Bank</th>
+                        <th>Failure Reason</th>
+                        <th>Status</th>
+                        <th>Recovery Action</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                {% for payment in payments %}
+
+                    <tr>
+
+                        <td>{{ payment.payment_id }}</td>
+
+                        <td>{{ payment.order_id }}</td>
+
+                        <td>₹{{ payment.amount }}</td>
+
+                        <td>{{ payment.payment_method }}</td>
+
+                        <td>{{ payment.bank }}</td>
+
+                        <td>{{ payment.failure_reason }}</td>
+
+                        <td>
+
+                            {% if payment.status == "RECOVERED" %}
+
+                                <span class="status status-recovered">
+                                    RECOVERED
+                                </span>
+
+                            {% else %}
+
+                                <span class="status status-failed">
+                                    FAILED
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+                        <td>
+                            {{ payment.recovery_action }}
+                        </td>
+
+                        <td>
+                            <a href="{% url 'payment_result' payment.id %}"
+                               class="details-btn">
+                                View Details
+                            </a>
+                        </td>
+
+                    </tr>
+
+                {% empty %}
+
+                    <tr>
+                        <td colspan="9">
+                            <div class="empty-state">
+                                You have not made any payments yet.
+                            </div>
+                        </td>
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="ai-info">
+
+            <h3>
+                ✦ AI Recovery Agent
+            </h3>
+
+            <p>
+                When your payment fails, the AI agent analyzes
+                the failure, identifies the likely cause, checks
+                safety policies and determines whether recovery
+                is safe.
+            </p>
+
+            <p>
+                <strong>Your Account:</strong> Protected
+            </p>
+
+            <p>
+                <strong>Failure Analysis:</strong> Active
+            </p>
+
+            <p>
+                <strong>Safety Guardrails:</strong> Active
+            </p>
+
+            <p>
+                <strong>Payment Gateway:</strong> Simulator
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+<footer>
+    Payment Failure Recovery Agent © 2026
+    <br>
+    AI-powered payment diagnosis, recovery and safety monitoring
+</footer>
+
+</body>
+</html>
