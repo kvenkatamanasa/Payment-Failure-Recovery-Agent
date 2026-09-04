@@ -1,272 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
+<form method="POST">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% csrf_token %}
 
-    <title>Login - Payment Failure Recovery Agent</title>
+    <div class="form-group">
 
-    <style>
+        <label for="username">
+            Username
+        </label>
 
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            margin: 0;
-            min-height: 100vh;
-            font-family: Arial, Helvetica, sans-serif;
-            background: linear-gradient(
-                135deg,
-                #eef2ff,
-                #f8fafc
-            );
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .login-wrapper {
-            width: 100%;
-            max-width: 430px;
-        }
-
-        .brand {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-
-        .brand h1 {
-            margin: 0;
-            color: #111827;
-            font-size: 28px;
-        }
-
-        .brand p {
-            margin-top: 8px;
-            color: #64748b;
-            font-size: 14px;
-        }
-
-        .login-card {
-            background: white;
-            border-radius: 18px;
-            padding: 35px;
-            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.10);
-        }
-
-        .login-card h2 {
-            text-align: center;
-            margin-top: 0;
-            margin-bottom: 8px;
-            color: #111827;
-        }
-
-        .subtitle {
-            text-align: center;
-            color: #64748b;
-            font-size: 14px;
-            margin-bottom: 25px;
-        }
-
-        .messages {
-            margin-bottom: 18px;
-        }
-
-        .message {
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 8px;
-            font-size: 14px;
-            background: #fee2e2;
-            color: #991b1b;
-        }
-
-        .form-group {
-            margin-bottom: 18px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 7px;
-            font-size: 14px;
-            font-weight: 700;
-            color: #374151;
-        }
-
-        input {
-            width: 100%;
-            padding: 13px 14px;
-            border: 1px solid #cbd5e1;
-            border-radius: 9px;
-            font-size: 15px;
-            outline: none;
-            transition: 0.2s;
-        }
-
-        input:focus {
-            border-color: #2563eb;
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
-        }
-
-        .login-btn {
-            width: 100%;
-            border: none;
-            padding: 14px;
-            border-radius: 9px;
-            background: #2563eb;
-            color: white;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .login-btn:hover {
-            background: #1d4ed8;
-            transform: translateY(-1px);
-        }
-
-        .signup-link {
-            text-align: center;
-            margin-top: 22px;
-            font-size: 14px;
-            color: #64748b;
-        }
-
-        .signup-link a {
-            color: #2563eb;
-            font-weight: 700;
-            text-decoration: none;
-        }
-
-        .signup-link a:hover {
-            text-decoration: underline;
-        }
-
-        .footer {
-            text-align: center;
-            margin-top: 18px;
-            color: #94a3b8;
-            font-size: 12px;
-        }
-
-        @media (max-width: 500px) {
-
-            .login-card {
-                padding: 25px 20px;
-            }
-
-            .brand h1 {
-                font-size: 23px;
-            }
-        }
-
-    </style>
-</head>
-
-<body>
-
-<div class="login-wrapper">
-
-    <div class="brand">
-        <h1>AI Payment Failure Recovery Agent</h1>
-        <p>AI-powered revenue recovery system</p>
-    </div>
-
-    <div class="login-card">
-
-        <h2>Welcome Back</h2>
-
-        <p class="subtitle">
-            Login to access your payment recovery dashboard
-        </p>
-
-        {% if messages %}
-        <div class="messages">
-
-            {% for message in messages %}
-
-                <div class="message">
-                    {{ message }}
-                </div>
-
-            {% endfor %}
-
-        </div>
-        {% endif %}
-
-        <form method="POST">
-
-            {% csrf_token %}
-
-            <div class="form-group">
-
-                <label for="username">
-                    Username
-                </label>
-
-                <input
-                    type="text"
-                    id="username"
-                    name="username"
-                    placeholder="Enter your username"
-                    required
-                >
-
-            </div>
-
-            <div class="form-group">
-
-                <label for="password">
-                    Password
-                </label>
-
-                <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    placeholder="Enter your password"
-                    required
-                >
-
-            </div>
-
-            <button
-                type="submit"
-                class="login-btn"
-            >
-                Login
-            </button>
-
-        </form>
-
-        <!-- SIGNUP LINK -->
-
-        <div class="signup-link">
-
-            Don't have an account?
-
-            <a href="{% url 'signup' %}">
-                Create an Account
-            </a>
-
-        </div>
+        <input
+            type="text"
+            id="username"
+            name="username"
+            placeholder="Enter your username"
+            required
+        >
 
     </div>
 
-    <div class="footer">
+    <div class="form-group">
 
-        Payment Failure Recovery Agent © 2026
-        <br>
-        AI-powered payment diagnosis, recovery and safety monitoring
+        <label for="password">
+            Password
+        </label>
+
+        <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Enter your password"
+            required
+        >
 
     </div>
 
-</div>
+    <button
+        type="submit"
+        class="login-btn"
+    >
+        Login
+    </button>
 
-</body>
-</html>
+</form>
