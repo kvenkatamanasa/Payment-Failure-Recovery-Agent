@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>AI Audit Trail | Admin</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        .header {
+            background: #111827;
+            color: white;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .brand {
+            font-size: 21px;
+            font-weight: bold;
+        }
+
+        .subtitle {
+            color: #cbd5e1;
+            font-size: 13px;
+            margin-top: 4px;
+        }
+
+        .logout {
+            background: #dc2626;
+            color: white;
+            padding: 10px 18px;
+            border-radius: 7px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .container {
+            width: 95%;
+            max-width: 1400px;
+            margin: 35px auto;
+        }
+
+        .page-header {
+            background: white;
+            padding: 28px;
+            border-radius: 14px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,.05);
+        }
+
+        .page-header h1 {
+            margin: 0;
+            color: #111827;
+        }
+
+        .page-header p {
+            color: #64748b;
+        }
+
+        .admin-badge {
+            display: inline-block;
+            background: #ede9fe;
+            color: #6d28d9;
+            padding: 7px 13px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 14px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,.05);
+        }
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            min-width: 1400px;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #111827;
+            color: white;
+            padding: 13px;
+            text-align: left;
+            font-size: 12px;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 12px;
+            vertical-align: top;
+        }
+
+        tbody tr:hover {
+            background: #f8fafc;
+        }
+
+        .allowed {
+            display: inline-block;
+            padding: 5px 9px;
+            background: #dcfce7;
+            color: #166534;
+            border-radius: 15px;
+            font-weight: bold;
+        }
+
+        .blocked {
+            display: inline-block;
+            padding: 5px 9px;
+            background: #fee2e2;
+            color: #991b1b;
+            border-radius: 15px;
+            font-weight: bold;
+        }
+
+        .risk-low {
+            color: #15803d;
+            font-weight: bold;
+        }
+
+        .risk-medium {
+            color: #b45309;
+            font-weight: bold;
+        }
+
+        .risk-high {
+            color: #b91c1c;
+            font-weight: bold;
+        }
+
+        .executed {
+            color: #15803d;
+            font-weight: bold;
+        }
+
+        .not-executed {
+            color: #b91c1c;
+            font-weight: bold;
+        }
+
+        .payment-link {
+            color: #2563eb;
+            font-weight: bold;
+        }
+
+        .payment-link:hover {
+            text-decoration: underline;
+        }
+
+        .navigation {
+            margin-top: 20px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            color: white;
+            padding: 11px 18px;
+            border-radius: 8px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .dashboard-btn {
+            background: #2563eb;
+        }
+
+        .recovery-btn {
+            background: #059669;
+        }
+
+        .payment-btn {
+            background: #7c3aed;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 40px;
+            color: #64748b;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        @media(max-width:700px) {
+
+            .header {
+                padding: 18px 20px;
+            }
+
+            .container {
+                width: 94%;
+                margin: 20px auto;
+            }
+
+            .navigation {
+                flex-direction: column;
+            }
+
+            .nav-btn {
+                text-align: center;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<header class="header">
+
+    <div>
+
+        <div class="brand">
+            AI Payment Failure Recovery Agent
+        </div>
+
+        <div class="subtitle">
+            AI-powered audit and safety monitoring
+        </div>
+
+    </div>
+
+    <a href="{% url 'logout' %}"
+       class="logout">
+        Logout
+    </a>
+
+</header>
+
+
+<div class="container">
+
+
+    <div class="page-header">
+
+        <span class="admin-badge">
+            ADMINISTRATOR
+        </span>
+
+        <h1>
+            AI Audit Trail
+        </h1>
+
+        <p>
+            Complete record of payment failure diagnosis,
+            AI recommendations, safety decisions and recovery execution.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>ID</th>
+
+                        <th>Payment</th>
+
+                        <th>Failure Type</th>
+
+                        <th>Root Cause</th>
+
+                        <th>Recommended Action</th>
+
+                        <th>Confidence</th>
+
+                        <th>Policy Action</th>
+
+                        <th>Allowed</th>
+
+                        <th>Risk Level</th>
+
+                        <th>Executed</th>
+
+                        <th>Result</th>
+
+                        <th>Safety Reason</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+                {% for audit in audits %}
+
+                    <tr>
+
+                        <td>
+                            {{ audit.id }}
+                        </td>
+
+
+                        <td>
+
+                            <a href="{% url 'payment_result' audit.payment.id %}"
+                               class="payment-link">
+
+                                {{ audit.payment.payment_id }}
+
+                            </a>
+
+                        </td>
+
+
+                        <td>
+                            {{ audit.failure_type }}
+                        </td>
+
+
+                        <td>
+                            {{ audit.root_cause }}
+                        </td>
+
+
+                        <td>
+                            {{ audit.recommended_action }}
+                        </td>
+
+
+                        <td>
+
+                            {% if audit.confidence %}
+
+                                {% widthratio audit.confidence 1 100 %}%
+
+                            {% else %}
+
+                                -
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <td>
+                            {{ audit.policy_action }}
+                        </td>
+
+
+                        <td>
+
+                            {% if audit.allowed %}
+
+                                <span class="allowed">
+                                    ✓ ALLOWED
+                                </span>
+
+                            {% else %}
+
+                                <span class="blocked">
+                                    ✕ BLOCKED
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <td>
+
+                            {% if audit.risk_level == "LOW" %}
+
+                                <span class="risk-low">
+                                    LOW
+                                </span>
+
+                            {% elif audit.risk_level == "HIGH" %}
+
+                                <span class="risk-high">
+                                    HIGH
+                                </span>
+
+                            {% else %}
+
+                                <span class="risk-medium">
+                                    {{ audit.risk_level }}
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <td>
+
+                            {% if audit.executed %}
+
+                                <span class="executed">
+                                    ✓ EXECUTED
+                                </span>
+
+                            {% else %}
+
+                                <span class="not-executed">
+                                    ✕ NOT EXECUTED
+                                </span>
+
+                            {% endif %}
+
+                        </td>
+
+
+                        <td>
+                            {{ audit.result }}
+                        </td>
+
+
+                        <td>
+                            {{ audit.reason }}
+                        </td>
+
+                    </tr>
+
+
+                {% empty %}
+
+                    <tr>
+
+                        <td colspan="12">
+
+                            <div class="empty">
+
+                                No audit records are available yet.
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+        <div class="navigation">
+
+            <a href="{% url 'dashboard' %}"
+               class="nav-btn dashboard-btn">
+
+                Dashboard
+
+            </a>
+
+
+            <a href="{% url 'recovery_dashboard' %}"
+               class="nav-btn recovery-btn">
+
+                Recovery Dashboard
+
+            </a>
+
+
+            <a href="{% url 'make_payment' %}"
+               class="nav-btn payment-btn">
+
+                Make Payment
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<footer>
+
+    Payment Failure Recovery Agent © 2026
+    <br>
+    AI-powered payment diagnosis, recovery and safety monitoring
+
+</footer>
+
+</body>
+
+</html>
