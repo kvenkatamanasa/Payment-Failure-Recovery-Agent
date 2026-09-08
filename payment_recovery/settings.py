@@ -26,10 +26,6 @@ SECRET_KEY = os.environ.get(
 DEBUG = os.environ.get("DEBUG", "False").lower() == "true"
 
 
-# ============================================================
-# ALLOWED HOSTS
-# ============================================================
-
 ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
@@ -49,6 +45,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
 
+    # Project app
     "payments",
 ]
 
@@ -60,6 +57,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
 
+    # WhiteNoise for static files
     "whitenoise.middleware.WhiteNoiseMiddleware",
 
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -116,13 +114,15 @@ WSGI_APPLICATION = "payment_recovery.wsgi.application"
 
 DATABASE_URL = os.environ.get("DATABASE_URL", "").strip()
 
-# Remove accidental surrounding quotes
+# Remove accidental quotation marks
 DATABASE_URL = DATABASE_URL.strip('"').strip("'")
+
 
 if DATABASE_URL:
 
-    # PostgreSQL / production database
-    if DATABASE_URL.startswith(("postgres://", "postgresql://")):
+    if DATABASE_URL.startswith(
+        ("postgres://", "postgresql://")
+    ):
 
         DATABASES = {
             "default": dj_database_url.parse(
@@ -134,15 +134,15 @@ if DATABASE_URL:
         }
 
     else:
+
         raise ValueError(
-            "DATABASE_URL is set, but it is not a valid PostgreSQL URL. "
-            "Use a URL such as "
-            "postgresql://username:password@host:5432/database"
+            "DATABASE_URL is set, but it is not a valid "
+            "PostgreSQL URL. Use a PostgreSQL DATABASE_URL."
         )
 
 else:
 
-    # Local development
+    # Local development database
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
@@ -157,20 +157,28 @@ else:
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        "NAME":
-        "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"
+        "NAME": (
+            "django.contrib.auth.password_validation."
+            "UserAttributeSimilarityValidator"
+        ),
     },
     {
-        "NAME":
-        "django.contrib.auth.password_validation.MinimumLengthValidator"
+        "NAME": (
+            "django.contrib.auth.password_validation."
+            "MinimumLengthValidator"
+        ),
     },
     {
-        "NAME":
-        "django.contrib.auth.password_validation.CommonPasswordValidator"
+        "NAME": (
+            "django.contrib.auth.password_validation."
+            "CommonPasswordValidator"
+        ),
     },
     {
-        "NAME":
-        "django.contrib.auth.password_validation.NumericPasswordValidator"
+        "NAME": (
+            "django.contrib.auth.password_validation."
+            "NumericPasswordValidator"
+        ),
     },
 ]
 
@@ -194,14 +202,21 @@ USE_TZ = True
 
 STATIC_URL = "/static/"
 
+# Production collected static files
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
-STATIC_DIR = BASE_DIR / "static"
 
-STATICFILES_DIRS = []
-
-if STATIC_DIR.exists():
-    STATICFILES_DIRS.append(STATIC_DIR)
+# IMPORTANT:
+# Do NOT add:
+#
+# STATICFILES_DIRS = [BASE_DIR / "static"]
+#
+# because your project static files are inside:
+#
+# payments/static/payments/
+#
+# Django automatically discovers them because
+# "django.contrib.staticfiles" and APP_DIRS are enabled.
 
 
 # ============================================================
@@ -209,14 +224,18 @@ if STATIC_DIR.exists():
 # ============================================================
 
 STORAGES = {
+
     "default": {
-        "BACKEND":
-        "django.core.files.storage.FileSystemStorage",
+        "BACKEND": (
+            "django.core.files.storage.FileSystemStorage"
+        ),
     },
 
     "staticfiles": {
-        "BACKEND":
-        "whitenoise.storage.CompressedManifestStaticFilesStorage",
+        "BACKEND": (
+            "whitenoise.storage."
+            "CompressedManifestStaticFilesStorage"
+        ),
     },
 }
 
@@ -234,7 +253,9 @@ MEDIA_ROOT = BASE_DIR / "media"
 # DEFAULT PRIMARY KEY
 # ============================================================
 
-DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+DEFAULT_AUTO_FIELD = (
+    "django.db.models.BigAutoField"
+)
 
 
 # ============================================================
@@ -258,7 +279,7 @@ CSRF_TRUSTED_ORIGINS = [
 
 
 # ============================================================
-# VERCEL / PROXY
+# PROXY / HTTPS SETTINGS
 # ============================================================
 
 SECURE_PROXY_SSL_HEADER = (
@@ -279,7 +300,7 @@ if not DEBUG:
 
     CSRF_COOKIE_SECURE = True
 
-    # Keep False initially on Vercel.
+    # Vercel already handles HTTPS redirection
     SECURE_SSL_REDIRECT = False
 
     SECURE_CONTENT_TYPE_NOSNIFF = True
@@ -288,7 +309,7 @@ if not DEBUG:
 
 
 # ============================================================
-# SESSION SETTINGS
+# SESSION SECURITY
 # ============================================================
 
 SESSION_COOKIE_HTTPONLY = True
@@ -299,10 +320,9 @@ SESSION_COOKIE_NAME = "payment_recovery_session"
 
 
 # ============================================================
-# MESSAGES
+# DJANGO MESSAGES
 # ============================================================
 
 MESSAGE_STORAGE = (
     "django.contrib.messages.storage.session.SessionStorage"
 )
-
