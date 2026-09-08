@@ -716,19 +716,22 @@ def dashboard(request):
         context
     )
 
-
 # ============================================================
 # HOME
 # ============================================================
 
-@login_required
 def home(request):
     """
-    Compatibility view.
+    Public landing page for the Payment Failure Recovery Agent.
+
+    Logged-in users can still use the Login/Dashboard buttons
+    from the landing page.
     """
 
-    return dashboard(request)
-
+    return render(
+        request,
+        "index.html"
+    )
 
 # ============================================================
 # MAKE PAYMENT
