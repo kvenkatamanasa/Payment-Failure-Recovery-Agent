@@ -1,0 +1,1533 @@
+```html
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="description"
+          content="Payment Failure Recovery Agent - AI-powered payment failure diagnosis, recovery, safety guardrails and analytics dashboard.">
+
+    <meta name="keywords"
+          content="Payment Failure Recovery, AI Payment Recovery, Django, Python, Payment Analytics, Recovery Agent, FinTech">
+
+    <meta name="author" content="Kammineni Venkata Manasa">
+
+    <title>Payment Failure Recovery Agent | AI-Powered Recovery</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #06111f;
+            color: #eaf6ff;
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        /* ================= NAVBAR ================= */
+
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(3, 13, 26, 0.96);
+            border-bottom: 1px solid #12304a;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: auto;
+            padding: 16px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            color: #00d9ff;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #c9d9e6;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #00d9ff;
+        }
+
+        .login-btn {
+            padding: 9px 18px;
+            border-radius: 7px;
+            background: #00bfe7;
+            color: #001018 !important;
+            font-weight: 700;
+        }
+
+        .login-btn:hover {
+            background: #5be8ff;
+        }
+
+        /* ================= HERO ================= */
+
+        .hero {
+            min-height: 88vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 80px 20px;
+            background:
+                radial-gradient(circle at top right, rgba(0, 217, 255, 0.15), transparent 35%),
+                radial-gradient(circle at bottom left, rgba(0, 116, 255, 0.12), transparent 35%),
+                #06111f;
+        }
+
+        .hero-content {
+            max-width: 900px;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border: 1px solid #1b536c;
+            border-radius: 30px;
+            color: #61e9ff;
+            background: rgba(0, 217, 255, 0.06);
+            margin-bottom: 22px;
+            font-size: 14px;
+        }
+
+        .hero h1 {
+            font-size: clamp(40px, 7vw, 72px);
+            line-height: 1.1;
+            margin-bottom: 22px;
+        }
+
+        .hero h1 span {
+            color: #00d9ff;
+        }
+
+        .hero p {
+            max-width: 750px;
+            margin: auto;
+            color: #b6c9d8;
+            font-size: 18px;
+        }
+
+        .hero-buttons {
+            margin-top: 35px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 13px 24px;
+            border-radius: 8px;
+            font-weight: 700;
+            transition: 0.3s;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: #00c7ec;
+            color: #001018;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            background: #61e9ff;
+        }
+
+        .btn-secondary {
+            border: 1px solid #28718a;
+            color: #bcefff;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(0, 217, 255, 0.08);
+        }
+
+        /* ================= COMMON ================= */
+
+        section {
+            padding: 85px 20px;
+        }
+
+        .container {
+            max-width: 1150px;
+            margin: auto;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title h2 {
+            font-size: 36px;
+            margin-bottom: 12px;
+            color: #ffffff;
+        }
+
+        .section-title p {
+            color: #91a8b9;
+            max-width: 700px;
+            margin: auto;
+        }
+
+        /* ================= OVERVIEW ================= */
+
+        .overview {
+            background: #081725;
+        }
+
+        .overview-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .stat-card {
+            background: #0b1e30;
+            border: 1px solid #15374e;
+            border-radius: 12px;
+            padding: 28px;
+            text-align: center;
+        }
+
+        .stat-card h3 {
+            color: #00d9ff;
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        .stat-card p {
+            color: #a9bdcb;
+        }
+
+        /* ================= ABOUT ================= */
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 45px;
+            align-items: center;
+        }
+
+        .about-text h3 {
+            font-size: 30px;
+            margin-bottom: 18px;
+        }
+
+        .about-text p {
+            color: #afc0cd;
+            margin-bottom: 16px;
+        }
+
+        .feature-list {
+            display: grid;
+            gap: 15px;
+        }
+
+        .feature {
+            padding: 18px;
+            border: 1px solid #17384f;
+            border-radius: 10px;
+            background: #0a1b2b;
+        }
+
+        .feature strong {
+            color: #5ce7ff;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .feature span {
+            color: #9db1c0;
+            font-size: 14px;
+        }
+
+        /* ================= SCREENSHOTS ================= */
+
+        .screenshots {
+            background: #081725;
+        }
+
+        .screenshots-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+        }
+
+        .screenshot-card {
+            background: #0a1b2b;
+            border: 1px solid #17384f;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: 0.3s;
+        }
+
+        .screenshot-card:hover {
+            transform: translateY(-5px);
+            border-color: #00d9ff;
+        }
+
+        .screenshot-image {
+            display: block;
+            cursor: zoom-in;
+        }
+
+        .screenshot-card img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            background: #020a12;
+            transition: 0.3s;
+        }
+
+        .screenshot-card:hover img {
+            opacity: 0.9;
+        }
+
+        .screenshot-card-content {
+            padding: 18px;
+        }
+
+        .screenshot-card h3 {
+            color: #dff9ff;
+            margin-bottom: 5px;
+        }
+
+        .screenshot-card p {
+            color: #91a8b9;
+            font-size: 14px;
+        }
+
+        .click-image {
+            margin-top: 10px;
+            color: #00d9ff;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        /* ================= INSIGHTS ================= */
+
+        .insights-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+        }
+
+        .insight-card {
+            padding: 28px;
+            border: 1px solid #17384f;
+            background: #091a2a;
+            border-radius: 12px;
+        }
+
+        .insight-number {
+            font-size: 32px;
+            color: #00d9ff;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .insight-card h3 {
+            margin-bottom: 10px;
+        }
+
+        .insight-card p {
+            color: #9eb2c1;
+        }
+
+        /* ================= TECHNOLOGIES ================= */
+
+        .technologies {
+            background: #081725;
+        }
+
+        .tech-grid {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .tech {
+            padding: 14px 22px;
+            border: 1px solid #20516a;
+            border-radius: 30px;
+            color: #c9f5ff;
+            background: #0a1c2c;
+        }
+
+        /* ================= WORKFLOW ================= */
+
+        .workflow {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+        }
+
+        .workflow-step {
+            position: relative;
+            padding: 25px 18px;
+            background: #0a1b2b;
+            border: 1px solid #17384f;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .workflow-step .number {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #00c7ec;
+            color: #001018;
+            font-weight: 700;
+        }
+
+        .workflow-step h3 {
+            font-size: 17px;
+            margin-bottom: 8px;
+        }
+
+        .workflow-step p {
+            color: #92a8b8;
+            font-size: 13px;
+        }
+
+        /* ================= RESOURCES ================= */
+
+        .resources {
+            background: #081725;
+        }
+
+        .resource-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .resource-card {
+            padding: 28px;
+            border: 1px solid #17384f;
+            background: #0a1b2b;
+            border-radius: 12px;
+        }
+
+        .resource-card h3 {
+            color: #dffaff;
+            margin-bottom: 10px;
+        }
+
+        .resource-card p {
+            color: #9db1c0;
+            margin-bottom: 18px;
+        }
+
+        .resource-link {
+            color: #00d9ff;
+            font-weight: 700;
+        }
+
+        /* ================= RECOMMENDATIONS ================= */
+
+        .recommendation-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .recommendation {
+            padding: 25px;
+            border-left: 3px solid #00d9ff;
+            background: #0a1b2b;
+            border-radius: 8px;
+        }
+
+        .recommendation h3 {
+            margin-bottom: 10px;
+        }
+
+        .recommendation p {
+            color: #9db1c0;
+        }
+
+        /* ================= CONTACT ================= */
+
+        .contact {
+            background: #081725;
+        }
+
+        .contact-box {
+            max-width: 950px;
+            margin: auto;
+            text-align: center;
+            padding: 50px 35px;
+            background:
+                radial-gradient(circle at top, rgba(0, 217, 255, 0.08), transparent 55%),
+                #0a1b2b;
+            border: 1px solid #17384f;
+            border-radius: 15px;
+        }
+
+        .contact-box h2 {
+            font-size: 36px;
+            margin-bottom: 15px;
+        }
+
+        .contact-box > p {
+            max-width: 700px;
+            margin: 0 auto 30px;
+            color: #9db1c0;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        .contact-link {
+            padding: 12px 20px;
+            border: 1px solid #20516a;
+            border-radius: 8px;
+            color: #c9f5ff;
+            background: #081725;
+            transition: 0.3s;
+        }
+
+        .contact-link:hover {
+            border-color: #00d9ff;
+            color: #00d9ff;
+            transform: translateY(-2px);
+        }
+
+        .contact-note {
+            color: #718797;
+            font-size: 13px;
+            margin-top: 20px;
+        }
+
+        /* ================= FOOTER ================= */
+
+        footer {
+            background: #030c16;
+            border-top: 1px solid #12304a;
+            padding: 30px 20px;
+            text-align: center;
+        }
+
+        footer p {
+            color: #718797;
+            font-size: 14px;
+        }
+
+        footer span {
+            color: #00d9ff;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 900px) {
+
+            .nav-links {
+                gap: 12px;
+            }
+
+            .overview-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .insights-grid,
+            .resource-grid,
+            .recommendation-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .workflow {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 650px) {
+
+            .nav-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .hero {
+                min-height: 75vh;
+                padding-top: 60px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+            .section-title h2 {
+                font-size: 30px;
+            }
+
+            .overview-grid,
+            .screenshots-grid,
+            .workflow {
+                grid-template-columns: 1fr;
+            }
+
+            .screenshot-card img {
+                height: 230px;
+            }
+
+            .contact-box {
+                padding: 35px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<nav>
+    <div class="nav-container">
+
+        <a href="#home" class="logo">
+            Payment Recovery Agent
+        </a>
+
+        <div class="nav-links">
+            <a href="#about">About</a>
+            <a href="#dashboard">Dashboard</a>
+            <a href="#insights">Insights</a>
+            <a href="#technology">Technology</a>
+            <a href="#workflow">Workflow</a>
+            <a href="#resources">Resources</a>
+            <a href="#contact">Contact</a>
+
+            <a href="{% url 'login' %}" class="login-btn">
+                Login
+            </a>
+        </div>
+
+    </div>
+</nav>
+
+
+<!-- ================= HERO ================= -->
+
+<section class="hero" id="home">
+
+    <div class="hero-content">
+
+        <div class="hero-badge">
+            AI-Powered FinTech Recovery System
+        </div>
+
+        <h1>
+            Payment Failure
+            <span>Recovery Agent</span>
+        </h1>
+
+        <p>
+            An intelligent payment recovery system that diagnoses payment
+            failures, recommends recovery actions, applies safety guardrails,
+            and tracks recovery performance through an analytics dashboard.
+        </p>
+
+        <div class="hero-buttons">
+
+            <a href="{% url 'login' %}" class="btn btn-primary">
+                Login to Recovery Agent
+            </a>
+
+            <a href="#about" class="btn btn-secondary">
+                Explore Project
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= PROJECT OVERVIEW ================= -->
+
+<section class="overview">
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <h2>Project Overview</h2>
+
+            <p>
+                A Django-based payment recovery application designed to
+                simulate intelligent diagnosis and safe recovery of failed
+                payment transactions.
+            </p>
+
+        </div>
+
+
+        <div class="overview-grid">
+
+            <div class="stat-card">
+                <h3>9+</h3>
+                <p>Payment Failure Scenarios</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>AI</h3>
+                <p>Rule-Based Diagnosis</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>100%</h3>
+                <p>Audit Visibility</p>
+            </div>
+
+            <div class="stat-card">
+                <h3>₹10K</h3>
+                <p>High-Value Safety Threshold</p>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= ABOUT PROJECT ================= -->
+
+<section id="about">
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <h2>About the Project</h2>
+
+            <p>
+                Turning payment failures into actionable recovery decisions.
+            </p>
+
+        </div>
+
+
+        <div class="about-grid">
+
+            <div class="about-text">
+
+                <h3>Why Payment Recovery?</h3>
+
+                <p>
+                    Payment failures can result in lost revenue, customer
+                    frustration, and unnecessary operational effort.
+                </p>
+
+                <p>
+                    This project provides an automated recovery workflow that
+                    identifies the type of payment failure, determines its
+                    likely root cause, recommends an appropriate action, and
+                    records every decision in an audit trail.
+                </p>
+
+                <p>
+                    The system is designed as an educational simulation of
+                    an AI-assisted payment recovery agent and does not process
+                    real financial transactions.
+                </p>
+
+            </div>
+
+
+            <div class="feature-list">
+
+                <div class="feature">
+                    <strong>AI Diagnosis</strong>
+                    <span>
+                        Identifies payment failure type and probable root cause.
+                    </span>
+                </div>
+
+                <div class="feature">
+                    <strong>Recovery Recommendation</strong>
+                    <span>
+                        Suggests an appropriate action based on the failure.
+                    </span>
+                </div>
+
+                <div class="feature">
+                    <strong>Safety Guardrails</strong>
+                    <span>
+                        Prevents unsafe automated actions and sends high-value
+                        transactions for manual review.
+                    </span>
+                </div>
+
+                <div class="feature">
+                    <strong>Audit Trail</strong>
+                    <span>
+                        Maintains recovery decisions and actions for monitoring.
+                    </span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= DASHBOARD / SCREENSHOTS ================= -->
+
+<section class="screenshots" id="dashboard">
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <h2>Project Screenshots</h2>
+
+            <p>
+                Explore the main interfaces and workflow of the Payment
+                Failure Recovery Agent.
+            </p>
+
+        </div>
+
+
+        <div class="screenshots-grid">
+
+
+            <!-- LOGIN -->
+
+            <div class="screenshot-card">
+
+                <a
+                    href="{% static 'payments/Screenshots/login.png' %}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="screenshot-image"
+                >
+                    <img
+                        src="{% static 'payments/Screenshots/login.png' %}"
+                        alt="Payment Recovery Agent Login Page"
+                    >
+                </a>
+
+                <div class="screenshot-card-content">
+
+                    <h3>Login</h3>
+
+                    <p>
+                        Secure authentication interface for accessing the
+                        payment recovery application.
+                    </p>
+
+                    <div class="click-image">
+                        Click image to view full size →
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- SIGNUP -->
+
+            <div class="screenshot-card">
+
+                <a
+                    href="{% static 'payments/Screenshots/signup.png' %}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="screenshot-image"
+                >
+                    <img
+                        src="{% static 'payments/Screenshots/signup.png' %}"
+                        alt="Payment Recovery Agent Signup Page"
+                    >
+                </a>
+
+                <div class="screenshot-card-content">
+
+                    <h3>Signup</h3>
+
+                    <p>
+                        User registration interface for creating an account.
+                    </p>
+
+                    <div class="click-image">
+                        Click image to view full size →
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- MAKE PAYMENT -->
+
+            <div class="screenshot-card">
+
+                <a
+                    href="{% static 'payments/Screenshots/make payment.png' %}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="screenshot-image"
+                >
+                    <img
+                        src="{% static 'payments/Screenshots/make payment.png' %}"
+                        alt="Make Payment Page"
+                    >
+                </a>
+
+                <div class="screenshot-card-content">
+
+                    <h3>Make Payment</h3>
+
+                    <p>
+                        Simulates a payment transaction and allows different
+                        payment failure scenarios to be tested.
+                    </p>
+
+                    <div class="click-image">
+                        Click image to view full size →
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- PAYMENT RESULT -->
+
+            <div class="screenshot-card">
+
+                <a
+                    href="{% static 'payments/Screenshots/payment result.png' %}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="screenshot-image"
+                >
+                    <img
+                        src="{% static 'payments/Screenshots/payment result.png' %}"
+                        alt="Payment Result and AI Diagnosis"
+                    >
+                </a>
+
+                <div class="screenshot-card-content">
+
+                    <h3>Payment Result</h3>
+
+                    <p>
+                        Displays payment status, failure diagnosis,
+                        confidence, recommended recovery action and safety
+                        decision.
+                    </p>
+
+                    <div class="click-image">
+                        Click image to view full size →
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- DASHBOARD -->
+
+            <div class="screenshot-card">
+
+                <a
+                    href="{% static 'payments/Screenshots/dashboard.png' %}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="screenshot-image"
+                >
+                    <img
+                        src="{% static 'payments/Screenshots/dashboard.png' %}"
+                        alt="Payment Recovery Dashboard"
+                    >
+                </a>
+
+                <div class="screenshot-card-content">
+
+                    <h3>Payment Dashboard</h3>
+
+                    <p>
+                        Provides an overview of payment activity, failures,
+                        recovered transactions and revenue.
+                    </p>
+
+                    <div class="click-image">
+                        Click image to view full size →
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- RECOVERY DASHBOARD -->
+
+            <div class="screenshot-card">
+
+                <a
+                    href="{% static 'payments/Screenshots/recovery dashboard.png' %}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="screenshot-image"
+                >
+                    <img
+                        src="{% static 'payments/Screenshots/recovery dashboard.png' %}"
+                        alt="Recovery Dashboard"
+                    >
+                </a>
+
+                <div class="screenshot-card-content">
+
+                    <h3>Recovery Dashboard</h3>
+
+                    <p>
+                        Provides recovery statistics, failure distribution,
+                        blocked actions and recovery performance.
+                    </p>
+
+                    <div class="click-image">
+                        Click image to view full size →
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- AI AUDIT TRAIL -->
+
+            <div class="screenshot-card">
+
+                <a
+                    href="{% static 'payments/Screenshots/ai audit trail.png' %}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="screenshot-image"
+                >
+                    <img
+                        src="{% static 'payments/Screenshots/ai audit trail.png' %}"
+                        alt="AI Recovery Audit Trail"
+                    >
+                </a>
+
+                <div class="screenshot-card-content">
+
+                    <h3>AI Audit Trail</h3>
+
+                    <p>
+                        Tracks AI diagnosis, confidence, recommended action,
+                        guardrail decisions and recovery outcomes.
+                    </p>
+
+                    <div class="click-image">
+                        Click image to view full size →
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= INSIGHTS ================= -->
+
+<section id="insights">
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <h2>Key Insights</h2>
+
+            <p>
+                The system provides useful insights into payment failures and
+                recovery operations.
+            </p>
+
+        </div>
+
+
+        <div class="insights-grid">
+
+            <div class="insight-card">
+                <div class="insight-number">01</div>
+                <h3>Failure Diagnosis</h3>
+                <p>
+                    Payment failures are classified into meaningful failure
+                    scenarios such as timeout, network error, insufficient
+                    balance, UPI failure and gateway errors.
+                </p>
+            </div>
+
+            <div class="insight-card">
+                <div class="insight-number">02</div>
+                <h3>Recovery Decisions</h3>
+                <p>
+                    The agent recommends actions such as retrying a payment,
+                    requesting another payment method, correcting payment
+                    details or requesting authentication.
+                </p>
+            </div>
+
+            <div class="insight-card">
+                <div class="insight-number">03</div>
+                <h3>Risk Control</h3>
+                <p>
+                    High-value transactions above the configured safety
+                    threshold are blocked from automatic recovery and sent
+                    for manual review.
+                </p>
+            </div>
+
+            <div class="insight-card">
+                <div class="insight-number">04</div>
+                <h3>Recovery Rate</h3>
+                <p>
+                    Recovery performance can be monitored using recovered
+                    payments compared with total failed transactions.
+                </p>
+            </div>
+
+            <div class="insight-card">
+                <div class="insight-number">05</div>
+                <h3>Revenue Recovery</h3>
+                <p>
+                    The dashboard tracks revenue recovered through successful
+                    simulated recovery actions.
+                </p>
+            </div>
+
+            <div class="insight-card">
+                <div class="insight-number">06</div>
+                <h3>Transparency</h3>
+                <p>
+                    Every recovery decision is recorded through the audit
+                    trail, making the system easier to monitor and explain.
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= TECHNOLOGIES ================= -->
+
+<section class="technologies" id="technology">
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <h2>Technologies Used</h2>
+
+            <p>
+                Technologies used to build the Payment Failure Recovery Agent.
+            </p>
+
+        </div>
+
+        <div class="tech-grid">
+
+            <div class="tech">Python</div>
+            <div class="tech">Django</div>
+            <div class="tech">PostgreSQL</div>
+            <div class="tech">Supabase</div>
+            <div class="tech">HTML5</div>
+            <div class="tech">CSS3</div>
+            <div class="tech">JavaScript</div>
+            <div class="tech">Git</div>
+            <div class="tech">GitHub</div>
+            <div class="tech">Vercel</div>
+            <div class="tech">Rule-Based AI</div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= WORKFLOW ================= -->
+
+<section id="workflow">
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <h2>System Workflow</h2>
+
+            <p>
+                From payment simulation to diagnosis, safety verification
+                and recovery tracking.
+            </p>
+
+        </div>
+
+
+        <div class="workflow">
+
+            <div class="workflow-step">
+                <div class="number">1</div>
+                <h3>Payment</h3>
+                <p>
+                    User creates a simulated payment transaction.
+                </p>
+            </div>
+
+            <div class="workflow-step">
+                <div class="number">2</div>
+                <h3>Detection</h3>
+                <p>
+                    System identifies the payment failure scenario.
+                </p>
+            </div>
+
+            <div class="workflow-step">
+                <div class="number">3</div>
+                <h3>AI Diagnosis</h3>
+                <p>
+                    Failure cause and recommended action are determined.
+                </p>
+            </div>
+
+            <div class="workflow-step">
+                <div class="number">4</div>
+                <h3>Guardrail</h3>
+                <p>
+                    Safety rules verify whether recovery can proceed.
+                </p>
+            </div>
+
+            <div class="workflow-step">
+                <div class="number">5</div>
+                <h3>Recovery</h3>
+                <p>
+                    Recovery is executed or the transaction is sent for
+                    manual review.
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= RESOURCES ================= -->
+
+<section class="resources" id="resources">
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <h2>Resources</h2>
+
+            <p>
+                Documentation and source code for the project.
+            </p>
+
+        </div>
+
+
+        <div class="resource-grid">
+
+            <div class="resource-card">
+
+                <h3>GitHub Repository</h3>
+
+                <p>
+                    View the complete source code, project structure and
+                    implementation.
+                </p>
+
+                <a
+                    href="https://github.com/kvenkatamanasa/Payment-Failure-Recovery-Agent"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="resource-link"
+                >
+                    View on GitHub →
+                </a>
+
+            </div>
+
+
+            <div class="resource-card">
+
+                <h3>Project Documentation</h3>
+
+                <p>
+                    Explore architecture, database design, deployment and
+                    testing documentation included with the project.
+                </p>
+
+                <span class="resource-link">
+                    Documentation included in repository
+                </span>
+
+            </div>
+
+
+            <div class="resource-card">
+
+                <h3>Live Application</h3>
+
+                <p>
+                    Access the deployed Payment Failure Recovery Agent and
+                    test the application workflow.
+                </p>
+
+                <a
+                    href="{% url 'login' %}"
+                    class="resource-link"
+                >
+                    Open Application →
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= RECOMMENDATIONS ================= -->
+
+<section>
+
+    <div class="container">
+
+        <div class="section-title">
+
+            <h2>Future Recommendations</h2>
+
+            <p>
+                Possible improvements for future versions of the system.
+            </p>
+
+        </div>
+
+
+        <div class="recommendation-grid">
+
+            <div class="recommendation">
+                <h3>Machine Learning</h3>
+                <p>
+                    Train a predictive model using historical payment data
+                    to improve failure classification and recovery prediction.
+                </p>
+            </div>
+
+            <div class="recommendation">
+                <h3>Real-Time Monitoring</h3>
+                <p>
+                    Add real-time payment monitoring and alerts for unusual
+                    failure patterns.
+                </p>
+            </div>
+
+            <div class="recommendation">
+                <h3>Advanced Risk Scoring</h3>
+                <p>
+                    Introduce transaction-level risk scoring using customer,
+                    payment and historical behaviour signals.
+                </p>
+            </div>
+
+            <div class="recommendation">
+                <h3>Explainable AI</h3>
+                <p>
+                    Provide more detailed explanations for every automated
+                    recovery recommendation.
+                </p>
+            </div>
+
+            <div class="recommendation">
+                <h3>Payment Gateway Integration</h3>
+                <p>
+                    A future production version could integrate with an
+                    appropriate payment gateway through secure APIs.
+                </p>
+            </div>
+
+            <div class="recommendation">
+                <h3>Human-in-the-Loop</h3>
+                <p>
+                    Expand manual approval workflows for high-risk and
+                    high-value transactions.
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= CONTACT ================= -->
+
+<section class="contact" id="contact">
+
+    <div class="container">
+
+        <div class="contact-box">
+
+            <h2>Let's Connect</h2>
+
+            <p>
+                Interested in the Payment Failure Recovery Agent or want to
+                discuss the project, technology, or future improvements?
+                Feel free to connect with me.
+            </p>
+
+
+            <div class="contact-links">
+
+                <!-- Replace the email address below with your preferred email -->
+
+                <a
+                    href="mailto:your-email@example.com"
+                    class="contact-link"
+                >
+                    📧 Email
+                </a>
+
+
+                <a
+                    href="https://github.com/kvenkatamanasa"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="contact-link"
+                >
+                    💻 GitHub
+                </a>
+
+
+                <!-- Replace # with your actual LinkedIn profile URL -->
+
+                <a
+                    href="#"
+                    class="contact-link"
+                >
+                    🔗 LinkedIn
+                </a>
+
+            </div>
+
+
+            <div class="hero-buttons">
+
+                <a
+                    href="{% url 'login' %}"
+                    class="btn btn-primary"
+                >
+                    Open Payment Recovery Agent
+                </a>
+
+            </div>
+
+
+            <p class="contact-note">
+                © 2026 Payment Failure Recovery Agent · Educational FinTech Project
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    <p>
+        © 2026 <span>Payment Failure Recovery Agent</span>.
+        Developed as an educational FinTech project.
+    </p>
+
+</footer>
+
+
+</body>
+</html>
+```
